@@ -1,5 +1,7 @@
 import 'package:calendar_app/calendar/calendar.dart';
+import 'package:calendar_app/calendar/controller/calendar_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +13,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    Get.put(CalendarController());
+    return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.
