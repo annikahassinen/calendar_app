@@ -1,3 +1,4 @@
+import 'package:calendar_app/calendar/class/task.dart';
 import 'package:calendar_app/calendar/controller/calendar_controller.dart';
 import 'package:calendar_app/calendar/widgets/add_task.dart';
 import 'package:flutter/material.dart';
@@ -38,17 +39,32 @@ class Calendar extends GetView<CalendarController> {
                   child: Text('Add task')),
               Column(
                 children: List.generate(
-                    controller.tasks.length,
-                    (int index) => Column(
-                          children: [
-                            Text(controller.tasks[index].title),
-                            Text(controller.tasks[index].date.toString()),
-                            SizedBox(height: 20)
-                          ],
-                        )),
+                    controller.selectedDayTasks().length,
+                    (int index) =>
+                        _taskListEntity(controller.selectedDayTasks()[index])),
               )
             ],
           );
         }));
+  }
+
+  Widget _taskListEntity(Task task) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            Text(task.title),
+            Text(task.date.toString()),
+            SizedBox(height: 20)
+          ],
+        ),
+        IconButton(
+            onPressed: () => controller.completeTask(task),
+            icon: Icon(Icons.check_box,
+                color:
+                    task.completed == true ? Colors.green : Colors.grey[200]))
+      ],
+    );
   }
 }

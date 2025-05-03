@@ -9,34 +9,36 @@ class AddTaskPopup extends GetView<CalendarController> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Material(
+      child: Dialog(
         child: GetBuilder<CalendarController>(builder: (controller) {
-          return Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Add task'),
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        onTapOutside: (PointerDownEvent event) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue))),
-                        controller: controller.textEditingController,
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Add task'),
+                      SizedBox(
+                        child: TextFormField(
+                          onTapOutside: (PointerDownEvent event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue))),
+                          controller: controller.textEditingController,
+                        ),
                       ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () => controller.addTask(),
-                        child: Text('Add'))
-                  ],
-                ),
-              ));
+                      ElevatedButton(
+                          onPressed: () => controller.addTask(),
+                          child: Text('Add'))
+                    ],
+                  ),
+                )),
+          );
         }),
       ),
     );
