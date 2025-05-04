@@ -1,6 +1,5 @@
 import 'package:calendar_app/calendar/class/task.dart';
 import 'package:calendar_app/calendar/controller/calendar_controller.dart';
-import 'package:calendar_app/calendar/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -30,13 +29,10 @@ class Calendar extends GetView<CalendarController> {
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AddTaskPopup(),
-                    );
-                  },
-                  child: Text('Add task')),
+                  onPressed: controller.showTaskPopup, child: Text('Add task')),
+              ElevatedButton(
+                  onPressed: controller.showAddRewardPopup,
+                  child: Text('Add reward')),
               Column(
                 children: List.generate(
                     controller.selectedDayTasks().length,

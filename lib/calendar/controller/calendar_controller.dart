@@ -1,5 +1,6 @@
 import 'package:calendar_app/calendar/class/reward.dart';
 import 'package:calendar_app/calendar/class/task.dart';
+import 'package:calendar_app/calendar/widgets/add_reward.dart';
 import 'package:calendar_app/calendar/widgets/add_task.dart';
 import 'package:calendar_app/calendar/widgets/get_reward.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,35 @@ class CalendarController extends GetxController {
     Reward('Pastry', icon: Icons.bakery_dining),
     Reward('Music', icon: Icons.headphones),
   ];
+  List<IconData> rewardIcons = [
+    Icons.book,
+    Icons.card_giftcard,
+    Icons.bakery_dining,
+    Icons.headphones,
+    Icons.agriculture,
+    Icons.airplane_ticket,
+    Icons.album,
+    Icons.announcement,
+    Icons.attach_money,
+    Icons.attractions, //10
+    Icons.bathtub,
+    Icons.beach_access,
+    Icons.bed,
+    Icons.brush,
+    Icons.toys,
+    Icons.cake,
+    Icons.cookie,
+    Icons.cruelty_free,
+    Icons.delivery_dining,
+    Icons.diamond,
+  ];
   TextEditingController textEditingController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   DateTime focusedDate = DateTime.now();
+  bool showRewardIcons = false;
+  IconData? selectedIcon;
 
+//ADD THINGS TO LIST
   void addTask({String? title, DateTime? date}) {
     tasks.add(Task(title ?? textEditingController.text, date ?? selectedDate));
     FocusManager.instance.primaryFocus?.unfocus();
@@ -24,13 +50,17 @@ class CalendarController extends GetxController {
     update();
   }
 
-  void onDaySelected(DateTime selected, DateTime focused) {
-    selectedDate = selected;
-    focusedDate = focused;
+  void addReward({String? title, IconData? icon}) {
+    rewards.add(Reward(title ?? textEditingController.text,
+        icon: icon ?? selectedIcon));
+    FocusManager.instance.primaryFocus?.unfocus();
+    Get.back();
     update();
   }
 
+  //SHOW POPUPS
   void showTaskPopup() {
+    textEditingController.clear();
     showDialog(
       context: Get.context!,
       builder: (context) => AddTaskPopup(),
@@ -44,10 +74,33 @@ class CalendarController extends GetxController {
     );
   }
 
+  void showAddRewardPopup() {
+    textEditingController.clear();
+    showDialog(
+      context: Get.context!,
+      builder: (context) => AddRewardPopup(),
+    );
+  }
+
+  //RETURN ITEM
   List<Task> selectedDayTasks() {
     List<Task> selectedTasks =
         tasks.where((task) => task.date == selectedDate).toList();
     return selectedTasks;
+  }
+
+  Reward randomReward() {
+    List<Reward> randomRewards = rewards;
+    randomRewards.shuffle();
+    return randomRewards.first;
+  }
+
+  //OTHERS
+  //CALENDAR
+  void onDaySelected(DateTime selected, DateTime focused) {
+    selectedDate = selected;
+    focusedDate = focused;
+    update();
   }
 
   void completeTask(Task task) {
@@ -57,9 +110,14 @@ class CalendarController extends GetxController {
     update();
   }
 
-  Reward randomReward() {
-    List<Reward> randomRewards = rewards;
-    randomRewards.shuffle();
-    return randomRewards.first;
+  //ADD REWARD
+  void showRewardIconSelection() {
+    showRewardIcons = !showRewardIcons;
+    update();
+  }
+
+  void selectIcon(IconData icon) {
+    selectedIcon = icon;
+    showRewardIconSelection();
   }
 }
