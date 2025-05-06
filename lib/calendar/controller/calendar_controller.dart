@@ -3,6 +3,7 @@ import 'package:calendar_app/calendar/class/task.dart';
 import 'package:calendar_app/calendar/widgets/add_reward.dart';
 import 'package:calendar_app/calendar/widgets/add_task.dart';
 import 'package:calendar_app/calendar/widgets/get_reward.dart';
+import 'package:calendar_app/calendar/widgets/show_all_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,17 +35,17 @@ class CalendarController extends GetxController {
     Icons.cookie,
     Icons.cruelty_free,
     Icons.delivery_dining,
-    Icons.diamond,
+    Icons.diamond, //20
   ];
   TextEditingController textEditingController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  DateTime focusedDate = DateTime.now();
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
   bool showRewardIcons = false;
   IconData? selectedIcon;
 
 //ADD THINGS TO LIST
   void addTask({String? title, DateTime? date}) {
-    tasks.add(Task(title ?? textEditingController.text, date ?? selectedDate));
+    tasks.add(Task(title ?? textEditingController.text, date ?? selectedDay));
     FocusManager.instance.primaryFocus?.unfocus();
     Get.back();
     update();
@@ -82,10 +83,17 @@ class CalendarController extends GetxController {
     );
   }
 
+  void showAllTasks() {
+    showDialog(
+      context: Get.context!,
+      builder: (context) => ShowAllTasksPopup(),
+    );
+  }
+
   //RETURN ITEM
   List<Task> selectedDayTasks() {
     List<Task> selectedTasks =
-        tasks.where((task) => task.date == selectedDate).toList();
+        tasks.where((task) => task.date == selectedDay).toList();
     return selectedTasks;
   }
 
@@ -95,11 +103,19 @@ class CalendarController extends GetxController {
     return randomRewards.first;
   }
 
+  bool dayHasTask(DateTime date) {
+    for (Task t in tasks) {
+      if (t.date == date) return true;
+    }
+    return false;
+  }
+
   //OTHERS
   //CALENDAR
   void onDaySelected(DateTime selected, DateTime focused) {
-    selectedDate = selected;
-    focusedDate = focused;
+    selectedDay = selected;
+    focusedDay = focused;
+
     update();
   }
 
