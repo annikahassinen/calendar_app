@@ -59,6 +59,11 @@ class CalendarController extends GetxController {
     update();
   }
 
+  void removeTask(Task task) {
+    tasks.remove(task);
+    update();
+  }
+
   //SHOW POPUPS
   void showTaskPopup() {
     textEditingController.clear();
@@ -110,6 +115,32 @@ class CalendarController extends GetxController {
     return false;
   }
 
+  Color dayHasTaskColor(DateTime date) {
+    //add the tasks for the day to the list
+    List<Task> todayTasks = [];
+    for (Task t in tasks) {
+      if (t.date == date) todayTasks.add(t);
+    }
+    if (todayTasks.isNotEmpty) {
+      //check how many tasks are completed from today's tasks
+      int completedTasks = 0;
+      for (Task t in tasks) {
+        if (t.completed == true) {
+          completedTasks++;
+        }
+      }
+      //return green if all tasks are done, yellow if some are done and red if none
+      if (completedTasks == todayTasks.length) {
+        return Colors.green;
+      } else if (completedTasks == 0) {
+        return Colors.red;
+      } else {
+        return Colors.yellow;
+      }
+    }
+    return Colors.white;
+  }
+
   //OTHERS
   //CALENDAR
   void onDaySelected(DateTime selected, DateTime focused) {
@@ -120,7 +151,7 @@ class CalendarController extends GetxController {
   }
 
   void completeTask(Task task) {
-    //if (task.completed == true) return;
+    if (task.completed == true) return;
     task.completed = true;
     showRewardPopup();
     update();

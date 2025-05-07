@@ -1,4 +1,5 @@
 import 'package:calendar_app/calendar/controller/calendar_controller.dart';
+import 'package:calendar_app/calendar/widgets/ui_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,10 +23,14 @@ class AddRewardPopup extends GetView<CalendarController> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Add reward'),
+                          Text(
+                            'Add reward',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                           Row(
                             children: [
-                              Icon(controller.selectedIcon),
+                              Icon(controller.selectedIcon, size: 40),
                               Flexible(
                                 child: SizedBox(
                                   child: TextFormField(
@@ -44,12 +49,10 @@ class AddRewardPopup extends GetView<CalendarController> {
                               ),
                             ],
                           ),
-                          ElevatedButton(
-                              onPressed: controller.showRewardIconSelection,
-                              child: Text('Choose icon')),
-                          ElevatedButton(
-                              onPressed: () => controller.addReward(),
-                              child: Text('Add'))
+                          UiButton(
+                              text: 'Choose icon',
+                              function: controller.showRewardIconSelection),
+                          UiButton(text: 'Add', function: controller.addReward),
                         ],
                       ),
                     )),
@@ -63,7 +66,11 @@ class AddRewardPopup extends GetView<CalendarController> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Choose an icon by clicking it'),
+        Text(
+          'Choose an icon by clicking it',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          textAlign: TextAlign.center,
+        ),
         Flexible(
           child: GridView.count(
             shrinkWrap: true,
@@ -77,7 +84,10 @@ class AddRewardPopup extends GetView<CalendarController> {
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.black)),
                   child: IconButton(
-                    icon: Icon(icon),
+                    icon: Icon(
+                      icon,
+                      size: 40,
+                    ),
                     onPressed: () => controller.selectIcon(icon),
                   ),
                 ),

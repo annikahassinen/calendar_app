@@ -1,4 +1,5 @@
 import 'package:calendar_app/calendar/controller/calendar_controller.dart';
+import 'package:calendar_app/calendar/widgets/ui_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,11 @@ class AddTaskPopup extends GetView<CalendarController> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Add task'),
+                      Text(
+                        'Add task',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
                       SizedBox(
                         child: TextFormField(
                           onTapOutside: (PointerDownEvent event) {
@@ -32,9 +37,7 @@ class AddTaskPopup extends GetView<CalendarController> {
                           controller: controller.textEditingController,
                         ),
                       ),
-                      ElevatedButton(
-                          onPressed: () => controller.addTask(),
-                          child: Text('Add'))
+                      UiButton(text: 'Add', function: controller.addTask),
                     ],
                   ),
                 )),

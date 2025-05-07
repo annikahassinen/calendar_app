@@ -1,5 +1,6 @@
 import 'package:calendar_app/calendar/class/reward.dart';
 import 'package:calendar_app/calendar/controller/calendar_controller.dart';
+import 'package:calendar_app/calendar/widgets/ui_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ class GetRewardPopup extends GetView<CalendarController> {
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       Text('You received this reward:'),
                       rewardInfo(),
-                      ElevatedButton(onPressed: Get.back, child: Text('Nice!'))
+                      UiButton(text: 'Nice!', function: Get.back),
                     ],
                   ),
                 )),
@@ -42,9 +43,16 @@ class GetRewardPopup extends GetView<CalendarController> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20), color: Colors.blue[200]),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0) +
+            const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          children: [Icon(randomReward.icon), Text(randomReward.name)],
+          children: [
+            Icon(
+              randomReward.icon,
+              size: 40,
+            ),
+            Text(randomReward.name)
+          ],
         ),
       ),
     );
